@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import messagebox
 import pass_gen
+import pyperclip
 
 FONT = ("Courier", 14, "bold")
 
@@ -15,6 +16,7 @@ def data():
     website_data = website_input.get()
     user_data = email_input.get()
     password_data = password_input.get()
+
     if website_data == "" or user_data == "" or password_data == "":
         messagebox.showinfo(title="Empty field",
                             message="Empty fields are not allowed")
@@ -30,6 +32,7 @@ def data():
                                         f"email: {user_data}\n"
                                         f"password: {password_data}\n"
                                         f"added Successfully")
+            pyperclip.copy(password_data)
             website_input.delete(first=0, last=END)
             email_input.delete(first=0, last=END)
             password_input.delete(first=0, last=END)
