@@ -1,6 +1,40 @@
 from tkinter import *
+from tkinter import messagebox
+import pass_gen
 
-FONT = ("Courier", 12, "bold")
+FONT = ("Courier", 14, "bold")
+
+
+def password_gen():
+    generated_pass = pass_gen.random_password()
+    password_input.delete(first=0, last=END)
+    password_input.insert(0, generated_pass)
+
+
+def data():
+    website_data = website_input.get()
+    user_data = email_input.get()
+    password_data = password_input.get()
+    if website_data == "" or user_data == "" or password_data == "":
+        messagebox.showinfo(title="Empty field",
+                            message="Empty fields are not allowed")
+        website_input.delete(first=0, last=END)
+        email_input.delete(first=0, last=END)
+        password_input.delete(first=0, last=END)
+        website_input.focus()
+    else:
+        with open("data.txt", "a+") as file:
+            file.write(f"{website_data} | {user_data} | {password_data}\n")
+            messagebox.showinfo(title="Added Successfully",
+                                message=f"website: {website_data}\n"
+                                        f"email: {user_data}\n"
+                                        f"password: {password_data}\n"
+                                        f"added Successfully")
+            website_input.delete(first=0, last=END)
+            email_input.delete(first=0, last=END)
+            password_input.delete(first=0, last=END)
+            website_input.focus()
+
 
 window = Tk()
 window.title("Password Manager")
@@ -44,11 +78,11 @@ password_input = Entry()
 password_input.config(width=21)
 password_input.grid(column=1, row=3)
 
-generate_btn = Button()
+generate_btn = Button(command=password_gen)
 generate_btn.config(text="Generate", width=10, bg="#e7305b")
 generate_btn.grid(column=2, row=3)
 
-add_btn = Button()
+add_btn = Button(command=data)
 add_btn.config(text="Add",
                bg="#9bdeac",
                width=35)
